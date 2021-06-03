@@ -10,7 +10,31 @@
         placeholder="ค้นหา รหัสประจำตัวนักเรียน"
         @keyup="searchItem()"
       ></b-form-input>
-      <b-table class="my-2" striped hover :items="search_item"></b-table>
+      <!-- <b-table class="my-2" striped hover :items="search_items"></b-table> -->
+      <b-table-simple
+        v-if="search_items.length != 0"
+        striped
+        hover
+        :borderless="true"
+        :outlined="false"
+      >
+        <b-thead>
+          <b-tr>
+            <b-th>ลำดับ</b-th>
+            <b-th>ชื่อ-สกุล</b-th>
+            <b-th>ห้อง</b-th>
+            <b-th>รหัศประจำตัวนักเรียน</b-th>
+          </b-tr>
+        </b-thead>
+        <b-tbody>
+          <b-tr v-for="(search_item, index) in search_items" :key="index">
+            <b-td> {{ search_item.no }} </b-td>
+            <b-td> {{ search_item.name }} </b-td>
+            <b-td> {{ search_item.room }} </b-td>
+            <b-td> {{ search_item.id }} </b-td>
+          </b-tr>
+        </b-tbody>
+      </b-table-simple>
     </b-container>
   </div>
 </template>
@@ -21,7 +45,7 @@ export default {
   data() {
     return {
       text: "",
-      search_item: [],
+      search_items: [],
       items: [
         {
           no: "1",
@@ -3797,7 +3821,7 @@ export default {
   methods: {
     searchItem() {
       console.log(this.text);
-      this.search_item = this.items.filter((item) =>
+      this.search_items = this.items.filter((item) =>
         item.id.includes(this.text)
       );
     },
